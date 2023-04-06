@@ -1,8 +1,8 @@
-import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Driver {
-    private List<Company> compaies;
+    public static List<Company> companies = new ArrayList<>();
 
     public static void main(String[] args) {
         //load data
@@ -14,11 +14,24 @@ public class Driver {
             choice = menu();
 
             //run selection
+            switch (choice){
+                case 1:
+
+                case 2:
+                    for (Company company: companies) {
+                        System.out.println(company);
+                    }
+
+                case 3:
+            }
+
         } while (choice != 4); //program loop
     }
 
     private static void load(){
-
+        // TODO: 06/04/2023 Create save and load method, remove tempory data
+        companies.add(new Company("Paddelsport Coaching", "email@email.provider.com", "123 Street, BB4 123"));
+        companies.add(new Company("test"));
     }
 
     private static int menu(){
