@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Driver {
+    private static String div = "=================";
+
     public static List<Company> companies = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -16,6 +18,12 @@ public class Driver {
             //run selection
             switch (choice){
                 case 1:
+                    System.out.println("Select the company");
+                    System.out.println(div);
+                    for(int i = 0; i < companies.size(); i++) {
+                        System.out.println(i + ". " + companies.get(i));
+                    }
+                    companies.get(numInput(0, companies.size())).addSession();
 
                 case 2:
                     for (Company company: companies) {
@@ -36,13 +44,20 @@ public class Driver {
 
     private static int menu(){
         System.out.println("Menu");
-        System.out.println("=================");
+        System.out.println(div);
         System.out.println("1. Add a shift");
         System.out.println("2. View Companies");
         System.out.println("3. Generate Invoice");
         System.out.println("4. Exit");
-        System.out.println("=================");
-        System.out.print("Enter an option: ");
+        return numInput(1,4);
+    }
+
+    private static int numInput(int min, int max){
+        System.out.println(div);
+
+        String prompt = "Enter an option between " + min + " and " + max + ": ";
+        System.out.print(prompt);
+
         int choice = -1;
         boolean invalid = false;
         do{
@@ -51,7 +66,7 @@ public class Driver {
             } catch (NumberFormatException e){
                 invalid = true;
             }
-            if (invalid || choice < 1 || choice > 4) System.out.print("Enter an option between 1 and 4: ");
+            if (invalid || choice < min || choice > max) System.out.print(prompt);
         } while (choice > 4 || choice < 1);
 
         return choice;
