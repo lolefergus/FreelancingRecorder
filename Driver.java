@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +19,29 @@ public class Driver {
             //run selection
             switch (choice){
                 case 1:
-                    System.out.println("Select the company");
-                    System.out.println(div);
+                    System.out.println("Select the company\n"+div);
                     for(int i = 0; i < companies.size(); i++) {
                         System.out.println(i + ". " + companies.get(i));
                     }
-                    companies.get(numInput(0, companies.size())).addSession();
+                    int compNum = numInput(0, companies.size());
+
+                    //set date
+                    System.out.println("Enter session date\n"+div);
+                    String date = System.console().readLine(); //@todo add date and description validation
+
+                    // set session type
+                    System.out.println("Select the session type\n"+div);
+                    for(int i = 0; i < companies.get(compNum).getSessions().length; i++) {
+                        System.out.println(i + ". " + companies.get(compNum).getSessions()[i]);
+                    }
+                    SessionType sessionType = companies.get(compNum).getSessions()[numInput(0, companies.size())].getType();
+
+                    // get description
+                    System.out.println("Enter a description\n"+div);
+                    String desc = System.console().readLine();
+
+                    // save session
+                    companies.get(compNum).addSession(sessionType, date, desc);
 
                 case 2:
                     for (Company company: companies) {
@@ -36,8 +54,12 @@ public class Driver {
         } while (choice != 4); //program loop
     }
 
+    /**
+     * Loads save data
+     * 
+     * @todo add save and load system
+     */
     private static void load(){
-        // TODO: 06/04/2023 Create save and load method, remove tempory data
         companies.add(new Company("Paddelsport Coaching", "email@email.provider.com", "123 Street, BB4 123"));
         companies.add(new Company("test"));
     }
@@ -52,6 +74,12 @@ public class Driver {
         return numInput(1,4);
     }
 
+    /**
+     * Gets user input for console menus
+     * @param min Minimum input value
+     * @param max Maximum input value
+     * @return Users number choice
+     */
     private static int numInput(int min, int max){
         System.out.println(div);
 

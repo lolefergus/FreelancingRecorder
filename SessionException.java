@@ -1,3 +1,6 @@
+/**
+ * Error Class for Session Errors
+ */
 public class SessionException extends Exception {
     /**
      * Constructs a new exception with {@code null} as its detail message.

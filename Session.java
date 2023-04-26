@@ -1,40 +1,45 @@
-import java.util.Objects;
+import java.time.LocalDate;
 
+/**
+ * Represents a shift I've worked
+ * @todo add getter classes
+ */
 public class Session {
-    private String name;
-    private int duration;
-    private int pay;
-    private String description;
+    private SessionType type;
+    private LocalDate date;
+    private String notes;
 
-    public Session(String type, int pay) throws SessionException {
-        this.name = type;
-        this.pay = validatePay(pay);
+    /**
+     * Creates a new session
+     * @param type Type of session to create
+     * @param date Date the session was worked
+     * @param notes Anything that should be rememberd about the session, e.g. river levels
+     * @todo add input validation
+     */
+    public Session(SessionType type, LocalDate date, String notes){
+        this.type = type;
+        this.date = date;
+        this.notes = notes;
     }
 
-    public Session(String type, int pay, int duration, String description) throws SessionException {
-        this.name = type;
-        this.pay = validatePay(pay);
-        this.duration = validatePay(duration); //reuses validate pay method as no extra requirements
-        this.description = description;
+    /**
+     * Creates a new session
+     * @param type Type of session to create
+     * @param date Date the session was worked
+     * @param notes Anything that should be rememberd about the session, e.g. river levels
+     * @todo add input validation
+     */
+    public Session(SessionType type, String date, String notes){
+        this.type = type;
+        this.date = LocalDate.parse(date);
+        this.notes = notes;
     }
 
-    private int validatePay(int pay) throws SessionException {
-        if (pay < 0) {
-            throw new SessionException("Pay cannot be less than Zero");
-        }
-        return pay;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Session session = (Session) o;
-        return name.equals(session.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
+    /**
+     * Getter method for session type
+     * @return Session type
+     */
+    public SessionType getType(){
+        return type;
     }
 }
