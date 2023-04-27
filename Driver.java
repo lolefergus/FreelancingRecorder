@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Driver {
-    private static String div = "=================";
+    public static String div = "=================";
 
     public static List<Company> companies = new ArrayList<>();
 
@@ -20,10 +20,8 @@ public class Driver {
             switch (choice){
                 case 1:
                     System.out.println("Select the company\n"+div);
-                    for(int i = 0; i < companies.size(); i++) {
-                        System.out.println(i + ". " + companies.get(i));
-                    }
-                    int compNum = numInput(0, companies.size());
+                    displayList(companies);
+                    int compNum = numInput(0, companies.size()-1);
 
                     //set date
                     System.out.println("Enter session date\n"+div);
@@ -31,10 +29,8 @@ public class Driver {
 
                     // set session type
                     System.out.println("Select the session type\n"+div);
-                    for(int i = 0; i < companies.get(compNum).getSessions().length; i++) {
-                        System.out.println(i + ". " + companies.get(compNum).getSessions()[i]);
-                    }
-                    SessionType sessionType = companies.get(compNum).getSessions()[numInput(0, companies.size())].getType();
+                    displayList(companies.get(compNum).getSessions());
+                    SessionType sessionType = companies.get(compNum).getSessions().get(numInput(0, companies.size()-1)).getType();
 
                     // get description
                     System.out.println("Enter a description\n"+div);
@@ -44,8 +40,15 @@ public class Driver {
                     companies.get(compNum).addSession(sessionType, date, desc);
 
                 case 2:
-                    for (Company company: companies) {
-                        System.out.println(company);
+                    System.out.println("Companies\n"+div);
+                    displayList(companies);
+                    System.out.println(companies.size() +". Return to menu");
+                    choice = numInput(0, companies.size());
+
+                    //displays info for selected company
+                    if (choice!=companies.size()){
+                        companies.get(choice).display();
+                        System.console().readLine();
                     }
 
                 case 3:
@@ -60,13 +63,17 @@ public class Driver {
      * @todo add save and load system
      */
     private static void load(){
-        companies.add(new Company("Paddelsport Coaching", "email@email.provider.com", "123 Street, BB4 123"));
-        companies.add(new Company("test"));
+        try{
+            companies.add(new Company("Paddlesport Coaching", "email@email.provider.com", "123 Street, BB4 123"));
+            companies.add(new Company("test"));
+        } catch (CompanyException e){
+
+        }
+
     }
 
     private static int menu(){
-        System.out.println("Menu");
-        System.out.println(div);
+        System.out.println(div+"\nMenu\n"+div);
         System.out.println("1. Add a shift");
         System.out.println("2. View Companies");
         System.out.println("3. Generate Invoice");
@@ -95,8 +102,19 @@ public class Driver {
                 invalid = true;
             }
             if (invalid || choice < min || choice > max) System.out.print(prompt);
-        } while (choice > 4 || choice < 1);
+        } while (choice > max || choice < min);
 
+        System.out.println(div);
         return choice;
+    }
+
+    /**
+     * Outputs an indexed list
+     * @param data list to output
+     */
+    private static void displayList(List<?> data){
+        for(int i = 0; i < companies.size(); i++) {
+            System.out.println(i + ". " + companies.get(i));
+        }
     }
 }
