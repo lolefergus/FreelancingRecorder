@@ -48,7 +48,10 @@ public class Driver {
                     //displays info for selected company
                     if (choice!=companies.size()){
                         companies.get(choice).display();
-                        System.console().readLine();
+                        System.out.println(div+"\n0. Manage contact details");
+                        System.out.println("1. Manage session types");
+                        System.out.println("2. Manage sessions");
+                        choice = numInput(0,2);
                     }
 
                 case 3:
